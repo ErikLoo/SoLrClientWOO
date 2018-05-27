@@ -1,0 +1,4 @@
+SoQr Phone Client: 
+
+The client communicates with a SoQrPCServer through TCP/IP. It either probes by playing a sweep sound or just listens to probes from other SoQr clients. 
+
