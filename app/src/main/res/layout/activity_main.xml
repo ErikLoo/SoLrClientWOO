@@ -4,13 +4,37 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <ListView android:id="@+id/list"
+
+    <ListView
+        android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="413dp"
         android:layout_weight="1"
-        android:transcriptMode="alwaysScroll"
         android:cacheColorHint="#00000000"
-        android:listSelector="@android:color/transparent"/>
+        android:listSelector="@android:color/transparent"
+        android:transcriptMode="alwaysScroll" />
+
+
+    <LinearLayout android:id="@+id/center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="IP: " />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/et_ip"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <LinearLayout android:id="@+id/footer"
         android:layout_width="fill_parent"

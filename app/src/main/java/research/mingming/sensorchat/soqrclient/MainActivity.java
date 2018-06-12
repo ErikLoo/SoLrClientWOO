@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.Console;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class MainActivity extends Activity {
 
         arrayList = new ArrayList<String>();
 
+        final EditText etIP = (EditText) findViewById(R.id.et_ip);
         final EditText editText = (EditText) findViewById(R.id.editText);
         Button send = (Button) findViewById(R.id.send_button);
 
@@ -67,22 +69,27 @@ public class MainActivity extends Activity {
 
         if (isExternalStorageWritable()) {
             String root = Environment.getExternalStorageDirectory().toString();
-            myDir = new File(root + "/containerprobe");
+            myDir = new File(root + "/probedata");
             myDir.mkdirs();
         }
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
-        // connect to the server
-        new connectTask().execute("");
+
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String ipaddress = etIP.getText().toString();
+                TCPClient.SERVERIP = ipaddress;
+                Log.d("DEBUG", "IP: " + TCPClient.SERVERIP);
+
                 String message = editText.getText().toString();
 
                 currentObjectName = message;
+
+                new connectTask().execute("");
 
                 //add the text in the arrayList
                 arrayList.add("c: " + message);
@@ -157,6 +164,14 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+    protected void startProbing(int type){
+        Timer t = new Timer();
+        t.schedule(new myTimerTask(), 0);
+    }
+
+
+
 
     protected void startPeriodProbing() {
         if (mTimerPeriodic != null) {
@@ -239,9 +254,9 @@ public class MainActivity extends Activity {
 
     private void playSweepSound() {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                (int) (1.0 * mAudioManager
+                (int) (0.5 * mAudioManager
                         .getStreamMaxVolume(AudioManager.STREAM_MUSIC)), 0);
-        mp = MediaPlayer.create(getApplicationContext(), R.raw.sin20hz20000hzlin_left);
+        mp = MediaPlayer.create(getApplicationContext(), R.raw.sweep20hz20000hz3dbfsdot5s);
         if (mp != null) {
             mp.start();
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
