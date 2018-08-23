@@ -1,4 +1,4 @@
-package research.mingming.sensorchat;
+package research.mingming.sensorUI;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

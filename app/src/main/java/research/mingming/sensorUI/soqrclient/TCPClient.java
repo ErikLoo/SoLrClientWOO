@@ -1,4 +1,4 @@
-package research.mingming.sensorchat.soqrclient;
+package research.mingming.sensorUI.soqrclient;
 
 /**
  * Created by Mingming on 3/3/2016.
@@ -9,21 +9,33 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+
 public class TCPClient {
 
     private String serverMessage;
-    public static String SERVERIP = "100.64.167.4"; //your computer IP address
+    private String readyToSend;
+    public static String SERVERIP = "100.64.167.4"; //your computer IP address. Forgot to change?
     public static final int SERVERPORT = 9000;
+
+    public  String clientID;//assign an ID to each object
+
     private OnMessageReceived mMessageListener = null;
     private boolean mRun = false;
+    private boolean sendFile = false;
+    public boolean testBoolean;
 
-    PrintWriter out;
-    BufferedReader in;
+    PrintWriter out; // Writing out
+    BufferedReader in; //Writing in
+
+    Socket socket; //declaring the socket
+
+    private OutputStream out2;
 
     /**
      *  Constructor of the class. OnMessagedReceived listens for the messages received from server
@@ -58,7 +70,10 @@ public class TCPClient {
             Log.e("TCP Client", "C: Connecting...");
 
             //create a socket to make the connection with the server
-            Socket socket = new Socket(serverAddr, SERVERPORT);
+            //Socket socket = new Socket(serverAddr, SERVERPORT);
+            socket = new Socket(serverAddr, SERVERPORT);//assign values to socket
+            //out2 = socket.getOutputStream();//assign values to out2;
+
 
             try {
 
@@ -78,9 +93,12 @@ public class TCPClient {
 
                     if (serverMessage != null && mMessageListener != null) {
                         //call the method messageReceived from MyActivity class
-                        mMessageListener.messageReceived(serverMessage);
+                        mMessageListener.messageReceived(serverMessage + clientID);
+                        readyToSend = serverMessage;
                     }
                     serverMessage = null;
+
+
 
                 }
 
@@ -109,4 +127,10 @@ public class TCPClient {
     public interface OnMessageReceived {
         public void messageReceived(String message);
     }
-}
+
+
+
+    }
+
+
+

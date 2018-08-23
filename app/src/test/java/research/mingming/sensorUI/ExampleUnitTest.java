@@ -1,4 +1,4 @@
-package research.mingming.sensorchat;
+package research.mingming.sensorUI;
 
 import org.junit.Test;
 

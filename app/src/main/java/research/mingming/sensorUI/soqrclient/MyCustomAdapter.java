@@ -1,4 +1,4 @@
-package research.mingming.sensorchat.soqrclient;
+package research.mingming.sensorUI.soqrclient;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import research.mingming.sensorchat.R;
+import research.mingming.sensorUI.R;
 
 public class MyCustomAdapter extends BaseAdapter {
     private ArrayList<String> mListItems;
@@ -17,6 +17,7 @@ public class MyCustomAdapter extends BaseAdapter {
 
     public MyCustomAdapter(Context context, ArrayList<String> arrayList){
 
+        //this is the underlying data set
         mListItems = arrayList;
 
         //get the layout inflater
@@ -44,22 +45,27 @@ public class MyCustomAdapter extends BaseAdapter {
 
     @Override
 
+
+    //maybe explain a bit
+    //this method determines what each view should look like
     public View getView(int position, View view, ViewGroup viewGroup) {
 
-        //check to see if the reused view is null or not, if is not null then reuse it
+        //check to see if the reused view is null or not, if it is not null then reuse it
         if (view == null) {
-            view = mLayoutInflater.inflate(R.layout.list_item, null);
+            //Note this list_item.xml is not main UI layout. It is the row layout!!!
+            view = mLayoutInflater.inflate(R.layout.list_item, null);//convert list_item.xml to a java object
         }
 
         //get the string item from the position "position" from array list to put it on the TextView
         String stringItem = mListItems.get(position);
         if (stringItem != null) {
 
+            //list_item_text_view is just one of three views of each row view
             TextView itemName = (TextView) view.findViewById(R.id.list_item_text_view);
 
             if (itemName != null) {
                 //set the item name on the TextView
-                itemName.setText(stringItem);
+                itemName.setText(stringItem);// set values for list_item_text_view
             }
         }
 

@@ -1,4 +1,4 @@
-package research.mingming.sensorchat.activeprobing;
+package research.mingming.sensorUI.activeprobing;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
