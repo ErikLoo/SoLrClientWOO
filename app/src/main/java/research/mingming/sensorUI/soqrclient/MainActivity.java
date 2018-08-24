@@ -45,12 +45,15 @@ public class MainActivity extends Activity {
     private Button start_pause;
     private Button finish;
     private  TextView timeView;
+    private TextView targetView;
+    private TextView openessView;
+    private String targetObject="---";
+    private String openess = "---";
 
     private ListView mList;// displays a vertically scrollable collection of views
     private ArrayList<String> arrayList;
     private MyCustomAdapter mAdapter;
     private TCPClient mTcpClient;
-    private File[] fileArray = new File[40];
 
 
     private String currentObjectName = "";
@@ -72,6 +75,8 @@ public class MainActivity extends Activity {
         //These are interactions with the UI. They are finding the corresponding UI element
         //final EditText etIP = (EditText) findViewById(R.id.et_ip);//ip address
         timeView = (TextView) findViewById(R.id.timeView);
+        targetView = (TextView) findViewById(R.id.textTarget);
+        openessView = (TextView) findViewById(R.id.textOpeness);
        // final EditText editText = (EditText) findViewById(R.id.editText);//message
         send = (Button) findViewById(R.id.send_button);
         start_pause = (Button) findViewById(R.id.start_pause_button);
@@ -94,12 +99,12 @@ public class MainActivity extends Activity {
 
             //    String ipaddress = etIP.getText().toString();// waiting for input ip address
 
-              //  ipaddress = "172.20.10.3"; //the ipaddress for my phone
-               String ipaddress = "100.64.194.54";// the ipaddress of my computer in DGP Lab
+                  String ipaddress = "172.20.10.3"; //the ipaddress for my phone
+            //   String ipaddress = "100.64.194.54";// the ipaddress of my computer in DGP Lab
 
 
              //   etIP.setText(ipaddress);//clear the input
-                timeView.setText(ipaddress);
+               // timeView.setText(ipaddress);
                 //What if ipaddress does not accpet new ipadress
                 TCPClient.SERVERIP = ipaddress;// Why not mTCPClient?
 
@@ -136,6 +141,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+                mTcpClient.sendMessage("view");
+
+                //insert a piece of code to enable viewing
                 if(timerRunning){
                     pauseTimer();
                 } else{
@@ -234,7 +242,18 @@ public class MainActivity extends Activity {
                 public void messageReceived(String message) {
                     //this method calls the onProgressUpdate
                     //this method publish (not display) the message to the main UI thread
-                    publishProgress(message);
+                    if(message.length()>20) {
+                        publishProgress(message); //cue message tend to be much longer than target object name
+                    }
+                    else {
+                        if(message.equals("Open")||message.equals("Closed"))
+                        {
+                            openess = message;
+                        }
+                        else {
+                            targetObject = message; //assign target object name to target object view
+                        }
+                    }
                 }
             });
 
@@ -251,13 +270,18 @@ public class MainActivity extends Activity {
         @Override
         //executed on the main UI thread
         protected void onProgressUpdate(String... values) {
+
             super.onProgressUpdate(values);
 
             //in the arrayList we add the messaged received from server
             arrayList.add(values[0]);
+
             // notify the adapter that the data set has changed. This means that new message received
             // from server was added to the list
             mAdapter.notifyDataSetChanged();
+
+            targetView.setText(targetObject);
+            openessView.setText(openess);
 
            // int delay = (currentObjectName-1)*1000;  //create delay for the client
 
