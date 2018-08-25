@@ -99,8 +99,8 @@ public class MainActivity extends Activity {
 
             //    String ipaddress = etIP.getText().toString();// waiting for input ip address
 
-                  String ipaddress = "172.20.10.3"; //the ipaddress for my phone
-            //   String ipaddress = "100.64.194.54";// the ipaddress of my computer in DGP Lab
+              //    String ipaddress = "172.20.10.3"; //the ipaddress for my phone
+              String ipaddress = "100.64.194.54";// the ipaddress of my computer in DGP Lab
 
 
              //   etIP.setText(ipaddress);//clear the input
@@ -158,6 +158,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+                mTcpClient.sendMessage("probe"+ Integer.toString((int)mTimeElapsed));//send the keyword probe along with time elapsed to server
                 pauseTimer(); //pause the timer
 
             }
